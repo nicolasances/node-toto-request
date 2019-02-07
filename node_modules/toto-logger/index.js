@@ -15,7 +15,7 @@ class Logger {
    */
   apiOut(correlationId, microservice, method, path) {
 
-    console.log('[' + correlationId + '] - [api-out] - [' + microservice + '] - [info] - Performing HTTP call ' + method + ' ' + path);
+    console.log('[' + correlationId + '] - [api-out:' + microservice + '] - [info] - Performing HTTP call ' + method + ' ' + path);
 
   }
 
