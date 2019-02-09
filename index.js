@@ -7,7 +7,7 @@ var validator = require('./validation/Validator');
  */
 module.exports.http = function(req) {
 
-  return new Promise((success, failure) {
+  return new Promise((success, failure) => {
 
     // Validate the data
     let validationResult = validator.validate(req);
