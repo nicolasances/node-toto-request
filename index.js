@@ -2,6 +2,14 @@ var httpRequest = require('request');
 var logger = require('toto-logger');
 var validator = require('./validation/Validator');
 
+var newMsgId = function(cid) {
+
+	let random = (Math.random() * 100000).toFixed(0).padStart(5, '0');
+
+	return cid + '-' + random;
+
+}
+
 /**
  * This function makes an http call and returns a standard Promise
  */
@@ -27,7 +35,8 @@ module.exports = function(req) {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'x-correlation-id': req.correlationId
+        'x-correlation-id': req.correlationId,
+        'x-msg-id': newMsgId(req.correlationId)
       }
     }
 
