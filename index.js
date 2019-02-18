@@ -28,6 +28,9 @@ module.exports = function(req) {
     // Append '/' in front of the resource, in case it's missing
     let res = req.resource.indexOf('/') == 0 ? req.resource : ('/' + req.resource);
 
+    // Message ID
+    let msgId = newMsgId(req.correlationId);
+
     // Define the request parameters
     let httpReq = {
       url: 'http://' + req.microservice + ':8080' + res,
@@ -36,7 +39,7 @@ module.exports = function(req) {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'x-correlation-id': req.correlationId,
-        'x-msg-id': newMsgId(req.correlationId)
+        'x-msg-id': msgId
       }
     }
 
@@ -44,7 +47,7 @@ module.exports = function(req) {
     if (req.body != null) httpReq.body = JSON.stringify(req.body);
 
     // Logging
-    logger.apiOut(req.correlationId, req.microservice, method, res);
+    logger.apiOut(req.correlationId, req.microservice, method, res, msgId);
 
     // Calling
     httpRequest(httpReq, (err, resp, body) => {
