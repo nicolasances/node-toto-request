@@ -10,6 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "request": "^2.88.0",
-    "toto-logger": "^3.0.0"
+    "toto-logger": "^4.0.0"
   }
 }
