@@ -12,6 +12,10 @@ var newMsgId = function(cid) {
 
 /**
  * This function makes an http call and returns a standard Promise
+ * 
+ * Added the following parameters to req: 
+ * -  fulldns   : (bool, default false): if true, will perform the request to the microservice by using 
+ *                the full DNS name. It will take the host from the env variable TOTO_HOST
  */
 module.exports = function(req) {
 
@@ -31,9 +35,14 @@ module.exports = function(req) {
     // Message ID
     let msgId = newMsgId(req.correlationId);
 
+    // Define the base URL 
+    let host = process.env.TOTO_HOST;
+    let baseURL = 'http://' + req.microservice + ':8080';
+    if (req.fulldns) baseURL = 'https://' + host + '/apis/' + req.microservice;
+
     // Define the request parameters
     let httpReq = {
-      url: 'http://' + req.microservice + ':8080' + res,
+      url: baseURL + res,
       method: method,
       headers: {
         'Content-Type': 'application/json',
