@@ -40,16 +40,21 @@ module.exports = function(req) {
     let baseURL = 'http://' + req.microservice + ':8080';
     if (req.fulldns) baseURL = 'https://' + host + '/apis/' + req.microservice;
 
+    // Headers
+    let headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'x-correlation-id': req.correlationId,
+      'x-msg-id': msgId
+    }
+    // If using the full dns, the authorization header is required
+    if (req.fulldns) headers['Authorization'] = process.env.TOTO_API_AUTH;
+
     // Define the request parameters
     let httpReq = {
       url: baseURL + res,
       method: method,
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'x-correlation-id': req.correlationId,
-        'x-msg-id': msgId
-      }
+      headers: headers
     }
 
     // In case there's a body
